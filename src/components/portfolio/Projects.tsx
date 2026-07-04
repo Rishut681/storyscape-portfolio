@@ -142,12 +142,12 @@ export function Projects() {
         {/* Featured piece — magazine 12-col */}
         <div key={featured.id} data-project-feature className="mt-14 grid grid-cols-12 gap-x-6 gap-y-8">
           <div className="col-span-12 md:col-span-7">
-            <div className="aspect-[4/3] w-full overflow-hidden bg-ink-deep">
+            <div className="aspect-[4/3] w-full overflow-hidden border border-ink/10 bg-paper-2">
               <img
                 src={featured.image}
                 alt={`${featured.name} — ${featured.tag}`}
                 loading="lazy"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </div>
             <div className="mt-3 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
@@ -216,12 +216,12 @@ export function Projects() {
                   onClick={() => setActive(idx)}
                   className="group text-left"
                 >
-                  <div className="aspect-[4/3] w-full overflow-hidden bg-paper-2 transition-transform group-hover:-translate-y-1">
+                  <div className="aspect-[4/3] w-full overflow-hidden border border-ink/10 bg-paper-2 transition-transform group-hover:-translate-y-1">
                     <img
                       src={p.image}
                       alt={`${p.name} — ${p.tag}`}
                       loading="lazy"
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-contain"
                     />
                   </div>
                   <div className="mt-3 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
