@@ -98,22 +98,22 @@ export function Hero() {
             <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">The Deck</p>
           </div>
           <p className="col-span-12 font-serif text-2xl leading-snug text-ink-deep md:col-span-8 md:text-3xl">
-            Rishu Raj is a freelance product engineer working at the seam of design and
-            code. For six years he has built <em>quiet, exacting</em> web products for
-            founders who care how a thing feels — and refuse to look like everyone else.
+            Rishu Raj is a product engineer working at the seam of design and
+            code — building <em>quiet, exacting</em> web products for founders who
+            care how a thing feels, and refuse to look like everyone else.
           </p>
         </div>
 
-        {/* Stats strip in editorial infographic style */}
+        {/* Marks / footprint strip */}
         <div className="mt-16 grid grid-cols-2 gap-6 rule-t pt-6 md:grid-cols-4">
           {[
-            { k: "20+", v: "products shipped" },
-            { k: "6 yrs", v: "in the craft" },
-            { k: "5.0", v: "average rating" },
-            { k: "3 wks", v: "typical lead time" },
+            { k: "Full-stack", v: "React · Node · Postgres" },
+            { k: "Gurgaon", v: "IN · UTC +5:30" },
+            { k: "Open", v: "for new commissions" },
+            { k: "Async", v: "clear, written, on time" },
           ].map((s) => (
             <div key={s.v}>
-              <p className="font-serif text-4xl leading-none text-ink-deep md:text-5xl">{s.k}</p>
+              <p className="font-serif text-3xl leading-none text-ink-deep md:text-4xl">{s.k}</p>
               <p className="mt-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                 {s.v}
               </p>
