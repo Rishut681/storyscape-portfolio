@@ -71,7 +71,8 @@ export function Skills() {
           {DISCIPLINES.map((d) => (
             <article
               key={d.no}
-              data-skill-card
+              data-skill-panel
+              style={{ opacity: 1, transform: "none" }}
               className="group relative min-h-[260px] overflow-hidden border border-ink/10 bg-card p-6 opacity-100 shadow-[0_18px_60px_oklch(0.1_0_0/0.08)] transition-all hover:-translate-y-1 hover:border-ochre/70 hover:shadow-[0_26px_90px_oklch(0.1_0_0/0.12)] md:p-8"
             >
               <div
