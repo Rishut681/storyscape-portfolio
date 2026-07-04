@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { HeroScene } from "./HeroScene";
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -8,73 +7,98 @@ export function Hero() {
     if (!ref.current) return;
     const ctx = gsap.context(() => {
       gsap.from("[data-hero-anim]", {
-        y: 40,
+        y: 30,
         opacity: 0,
-        duration: 1,
+        duration: 1.1,
         ease: "power3.out",
-        stagger: 0.12,
-        delay: 0.2,
+        stagger: 0.1,
+        delay: 0.15,
       });
     }, ref);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="home" ref={ref} className="relative min-h-screen overflow-hidden pt-28">
-      <div className="absolute inset-0 bg-grid opacity-40" />
-      <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
-      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 pb-16 pt-8 lg:grid-cols-[1.05fr_1fr] lg:gap-4 lg:pt-16">
-        <div className="relative z-10 flex flex-col justify-center">
-          <p data-hero-anim className="mb-6 font-mono text-xs tracking-widest text-brand-cyan">
-            &lt; INTRODUCING RISHU.ENGINE v1.0 /&gt;
-          </p>
-          <h1
-            data-hero-anim
-            className="font-display text-5xl font-medium leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
-          >
-            <span className="text-brand-cyan">&lt;</span> Cinematic
-            <br />
-            product interfaces
-            <br />
-            <span className="text-muted-foreground/80">for founders</span>
-            <br />
-            <span className="text-muted-foreground/80">who need to</span>
-            <br />
-            <span className="text-gradient-lime">stand out.</span>{" "}
-            <span className="text-brand-cyan">/&gt;</span>
-          </h1>
-          <p data-hero-anim className="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground">
-            I design and build premium web experiences and full-stack products that look
-            exceptional, perform beautifully, and drive real results.
-          </p>
-          <div data-hero-anim className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#contact"
-              className="group inline-flex items-center gap-2 rounded-md bg-brand-cyan px-5 py-3 text-sm font-medium text-primary-foreground transition-all hover:glow-cyan"
+    <section id="home" ref={ref} className="relative overflow-hidden">
+      <div className="mx-auto max-w-[1400px] px-6 pb-16 pt-10 md:pb-24 md:pt-16">
+        {/* Above-fold masthead line */}
+        <div className="rule-b mb-8 flex flex-wrap items-baseline justify-between gap-3 pb-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+          <span data-hero-anim>Feature · The Practice</span>
+          <span data-hero-anim>By Rishu Raj · Freelance</span>
+          <span data-hero-anim>Est. read · 4 min</span>
+        </div>
+
+        {/* Editorial hero: 12-col magazine grid */}
+        <div className="grid grid-cols-12 gap-x-6 gap-y-10">
+          <div className="col-span-12 md:col-span-8">
+            <p data-hero-anim className="mb-6 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+              № 001 — Practice Notes
+            </p>
+            <h1
+              data-hero-anim
+              className="font-serif text-[15vw] font-normal leading-[0.92] tracking-tight text-ink-deep md:text-[9.5vw] lg:text-[8.5rem]"
             >
-              Start a project
-              <span className="transition-transform group-hover:translate-x-1">→</span>
-            </a>
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-md border border-border bg-card/40 px-5 py-3 text-sm text-foreground backdrop-blur transition-colors hover:bg-card"
-            >
-              View case studies
-            </a>
+              Cinematic
+              <br />
+              <em className="italic text-ink">interfaces,</em>
+              <br />
+              built by hand.
+            </h1>
           </div>
-          <p data-hero-anim className="mt-10 font-mono text-xs text-muted-foreground">
-            Creative <span className="text-brand-cyan">Frontend</span> Engineer &
-            <span className="text-brand-lime"> Full-Stack</span> Product Builder
+
+          <aside data-hero-anim className="col-span-12 flex flex-col justify-end md:col-span-4">
+            <div className="rule-t rule-b py-5">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                A note from the studio
+              </p>
+              <p className="mt-3 font-serif text-xl leading-snug italic text-ink-deep">
+                "I don't ship templates. I ship products that feel like they belong to someone."
+              </p>
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 border border-ink-deep bg-ink-deep px-4 py-2.5 text-xs uppercase tracking-[0.18em] text-paper transition-colors hover:bg-transparent hover:text-ink-deep"
+              >
+                Start a project
+              </a>
+              <a
+                href="#projects"
+                className="ink-underline ink-underline-hover pb-0.5 text-xs uppercase tracking-[0.18em] text-ink-deep"
+              >
+                Browse the case files ↗
+              </a>
+            </div>
+          </aside>
+        </div>
+
+        {/* Deck / standfirst */}
+        <div className="mt-14 grid grid-cols-12 gap-x-6 gap-y-6">
+          <div className="col-span-12 md:col-span-4">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">The Deck</p>
+          </div>
+          <p className="col-span-12 font-serif text-2xl leading-snug text-ink-deep md:col-span-8 md:text-3xl">
+            Rishu Raj is a freelance product engineer working at the seam of design and
+            code. For six years he has built <em>quiet, exacting</em> web products for
+            founders who care how a thing feels — and refuse to look like everyone else.
           </p>
         </div>
 
-        <div className="relative min-h-[420px] lg:min-h-[560px]">
-          <div className="absolute inset-0 -z-0 rounded-full bg-brand-cyan/10 blur-3xl" />
-          <HeroScene />
-          <div className="pointer-events-none absolute bottom-6 right-2 flex items-center gap-4 font-mono text-[10px] text-muted-foreground">
-            <span>Drag to explore</span>
-            <span>· Scroll to journey</span>
-          </div>
+        {/* Stats strip in editorial infographic style */}
+        <div className="mt-16 grid grid-cols-2 gap-6 rule-t pt-6 md:grid-cols-4">
+          {[
+            { k: "20+", v: "products shipped" },
+            { k: "6 yrs", v: "in the craft" },
+            { k: "5.0", v: "average rating" },
+            { k: "3 wks", v: "typical lead time" },
+          ].map((s) => (
+            <div key={s.v}>
+              <p className="font-serif text-4xl leading-none text-ink-deep md:text-5xl">{s.k}</p>
+              <p className="mt-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                {s.v}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

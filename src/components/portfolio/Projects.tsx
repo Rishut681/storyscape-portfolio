@@ -13,8 +13,10 @@ type Project = {
   role: string;
   duration: string;
   focus: string;
-  bullets: string[];
   stack: string[];
+  year: string;
+  swatch: string;
+  bullets: string[];
   preview: ReactNode;
 };
 
@@ -28,6 +30,8 @@ const PROJECTS: Project[] = [
     role: "Full-Stack Engineer",
     duration: "10 weeks",
     focus: "UX, Performance, SEO",
+    year: "2025",
+    swatch: "#0c2340",
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "PostgreSQL"],
     bullets: [
       "Built a fluid itinerary builder with drag & drop",
@@ -74,6 +78,8 @@ const PROJECTS: Project[] = [
     role: "Founding Engineer",
     duration: "6 months",
     focus: "AI, DX, Realtime",
+    year: "2024",
+    swatch: "#0a0f1a",
     stack: ["Next.js", "Node.js", "OpenAI", "Postgres", "tRPC"],
     bullets: [
       "Designed streaming, context-aware chat UI",
@@ -102,6 +108,8 @@ const PROJECTS: Project[] = [
     role: "Frontend Lead",
     duration: "4 months",
     focus: "Design Systems, Perf",
+    year: "2024",
+    swatch: "#1e0b3b",
     stack: ["Next.js", "Shopify", "GraphQL", "Tailwind"],
     bullets: [
       "Designed a themeable storefront kit",
@@ -131,6 +139,8 @@ const PROJECTS: Project[] = [
     role: "Full-Stack Engineer",
     duration: "12 weeks",
     focus: "Realtime, Workflow",
+    year: "2023",
+    swatch: "#0f172a",
     stack: ["React", "Node.js", "WebSockets", "Postgres"],
     bullets: [
       "Realtime multi-agent inbox",
@@ -155,87 +165,117 @@ const PROJECTS: Project[] = [
 export function Projects() {
   const [active, setActive] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const project = PROJECTS[active];
+  const featured = PROJECTS[active];
+  const rest = PROJECTS.filter((_, i) => i !== active);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from("[data-project-preview]", { opacity: 0, y: 20, duration: 0.5, ease: "power2.out" });
+      gsap.from("[data-project-feature]", { opacity: 0, y: 20, duration: 0.6, ease: "power2.out" });
     }, ref);
     return () => ctx.revert();
   }, [active]);
 
   return (
-    <section id="projects" ref={ref} className="relative border-t border-border/40 py-28">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-12 max-w-xl">
-          <p className="mb-4 font-mono text-xs tracking-widest text-brand-cyan">FEATURED PROJECTS</p>
-          <h2 className="font-display text-4xl font-medium leading-tight tracking-tight">
-            Products I've built<br />and shipped.
-          </h2>
+    <section id="projects" ref={ref} className="rule-t py-20 md:py-28">
+      <div className="mx-auto max-w-[1400px] px-6">
+        <div className="rule-b mb-10 flex items-baseline justify-between pb-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+          <span>Section IV</span>
+          <span>The Case Files</span>
+          <span>{PROJECTS.length} works</span>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
-          {/* Project list */}
-          <div className="flex flex-col gap-2">
-            {PROJECTS.map((p, i) => {
-              const isActive = i === active;
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => setActive(i)}
-                  className={`group flex items-center gap-3 rounded-lg border p-3 text-left transition-all ${isActive ? "border-brand-cyan bg-brand-cyan/10 glow-cyan" : "border-border/60 bg-card/40 hover:border-border"}`}
-                >
-                  <span className={`h-12 w-16 shrink-0 rounded ${isActive ? "" : "opacity-70"}`} style={{ background: `linear-gradient(135deg, oklch(0.4 0.15 ${200 + i * 40}), oklch(0.2 0.05 250))` }} />
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium">{p.name}</span>
-                    <span className="block truncate text-xs text-muted-foreground">{p.tag}</span>
-                  </span>
-                </button>
-              );
-            })}
+        <div className="grid grid-cols-12 gap-x-6 gap-y-8">
+          <h2 className="col-span-12 font-serif text-5xl leading-[0.95] text-ink-deep md:col-span-8 md:text-7xl">
+            Work, <em className="italic">as documented</em>.
+          </h2>
+          <p className="col-span-12 self-end text-sm leading-relaxed text-ink md:col-span-4">
+            A short shelf of recent projects. Click a case to swap the feature.
+          </p>
+        </div>
+
+        {/* Featured piece — magazine 12-col */}
+        <div key={featured.id} data-project-feature className="mt-14 grid grid-cols-12 gap-x-6 gap-y-8">
+          <div className="col-span-12 md:col-span-7">
+            <div className="aspect-[4/3] w-full overflow-hidden bg-ink-deep">
+              {featured.preview}
+            </div>
+            <div className="mt-3 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+              <span>Fig. {String(active + 1).padStart(2, "0")}</span>
+              <span>{featured.tag} — {featured.year}</span>
+            </div>
           </div>
 
-          {/* Case study */}
-          <div className="rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.3fr]">
-              <div>
-                <h3 className="font-display text-3xl font-medium">{project.name}</h3>
-                <p className="mt-3 text-sm text-muted-foreground">{project.desc}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.stack.map((s) => (
-                    <span key={s} className="rounded border border-border/60 bg-secondary/60 px-2 py-1 font-mono text-[10px]">{s}</span>
-                  ))}
-                </div>
-                <div className="mt-6 flex gap-4 text-sm">
-                  <a className="text-brand-cyan hover:underline" href="#">Live site ↗</a>
-                  <a className="text-brand-cyan hover:underline" href="#">Case study →</a>
-                </div>
-                <dl className="mt-6 space-y-2 text-sm">
-                  <div className="flex justify-between border-b border-border/40 pb-2"><dt className="text-muted-foreground">Role</dt><dd>{project.role}</dd></div>
-                  <div className="flex justify-between border-b border-border/40 pb-2"><dt className="text-muted-foreground">Duration</dt><dd>{project.duration}</dd></div>
-                  <div className="flex justify-between"><dt className="text-muted-foreground">Focus</dt><dd>{project.focus}</dd></div>
-                </dl>
-                <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
-                  {project.bullets.map((b) => (
-                    <li key={b} className="flex gap-2"><span className="text-brand-lime">✓</span>{b}</li>
-                  ))}
-                </ul>
-              </div>
-              <div data-project-preview className="relative min-h-[420px]">
-                {project.preview}
-              </div>
+          <div className="col-span-12 md:col-span-5">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+              Featured case · {featured.year}
+            </p>
+            <h3 className="mt-2 font-serif text-5xl leading-[0.95] text-ink-deep md:text-6xl">
+              {featured.name}
+            </h3>
+            <p className="mt-2 font-serif text-2xl italic text-ink">{featured.headline}</p>
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-ink">{featured.desc}</p>
+
+            <dl className="mt-8 grid grid-cols-3 gap-4 rule-t pt-4 text-xs">
+              <div><dt className="uppercase tracking-[0.18em] text-muted-foreground">Role</dt><dd className="mt-1 font-serif text-lg text-ink-deep">{featured.role}</dd></div>
+              <div><dt className="uppercase tracking-[0.18em] text-muted-foreground">Time</dt><dd className="mt-1 font-serif text-lg text-ink-deep">{featured.duration}</dd></div>
+              <div><dt className="uppercase tracking-[0.18em] text-muted-foreground">Focus</dt><dd className="mt-1 font-serif text-lg text-ink-deep">{featured.focus}</dd></div>
+            </dl>
+
+            <ul className="mt-6 space-y-2 text-sm text-ink">
+              {featured.bullets.map((b) => (
+                <li key={b} className="flex gap-3">
+                  <span className="mt-2 h-px w-4 shrink-0 bg-ink-deep" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              {featured.stack.map((s) => (
+                <span key={s} className="before:mr-3 before:content-['·']">{s}</span>
+              ))}
+            </div>
+
+            <div className="mt-8 flex gap-6">
+              <a href="#" className="ink-underline ink-underline-hover pb-0.5 text-sm uppercase tracking-[0.18em] text-ink-deep">
+                Visit live site ↗
+              </a>
+              <a href="#" className="ink-underline ink-underline-hover pb-0.5 text-sm uppercase tracking-[0.18em] text-ink-deep">
+                Read the case →
+              </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 flex items-center justify-between text-sm text-muted-foreground">
-          <button onClick={() => setActive((a) => (a - 1 + PROJECTS.length) % PROJECTS.length)} className="hover:text-foreground">← Prev project</button>
-          <div className="flex gap-2">
-            {PROJECTS.map((_, i) => (
-              <span key={i} className={`h-1 rounded-full transition-all ${i === active ? "w-8 bg-brand-cyan" : "w-4 bg-border"}`} />
-            ))}
+        {/* Supporting grid */}
+        <div className="mt-20 rule-t pt-6">
+          <p className="mb-6 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+            Also on the shelf
+          </p>
+          <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-3">
+            {rest.map((p) => {
+              const idx = PROJECTS.findIndex((x) => x.id === p.id);
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => setActive(idx)}
+                  className="group text-left"
+                >
+                  <div className="aspect-[4/3] w-full overflow-hidden bg-paper-2 transition-transform group-hover:-translate-y-1">
+                    <div className="h-full w-full" style={{ background: `linear-gradient(135deg, ${p.swatch}, #0d0d0d)` }} />
+                  </div>
+                  <div className="mt-3 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                    <span>№ {String(idx + 1).padStart(2, "0")}</span>
+                    <span>{p.year}</span>
+                  </div>
+                  <h4 className="mt-2 font-serif text-2xl text-ink-deep group-hover:italic md:text-3xl">
+                    {p.name}
+                  </h4>
+                  <p className="mt-1 text-sm text-muted-foreground">{p.tag}</p>
+                </button>
+              );
+            })}
           </div>
-          <button onClick={() => setActive((a) => (a + 1) % PROJECTS.length)} className="hover:text-foreground">Next project →</button>
         </div>
       </div>
     </section>
