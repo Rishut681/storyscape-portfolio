@@ -106,26 +106,6 @@ const PROJECTS: Project[] = [
     ],
     image: "https://res.cloudinary.com/nlvtbdsn/image/upload/v1783151285/wandrly_fmnkmv.png",
   },
-  {
-    id: "devcompanion",
-    name: "DevCompanion",
-    tag: "AI developer assistant",
-    headline: "Ship faster with your AI pair.",
-    desc: "An AI-powered assistant that lives inside your editor and helps you write, refactor and review code.",
-    role: "Founding Engineer",
-    duration: "6 months",
-    focus: "AI, DX, Realtime",
-    year: "2024",
-    swatch: "#0a0f1a",
-    stack: ["Next.js", "Node.js", "OpenAI", "Postgres", "tRPC"],
-    bullets: [
-      "Designed streaming, context-aware chat UI",
-      "Built a plugin architecture for editors",
-      "Optimised token usage with smart context windows",
-      "Shipped analytics dashboard for teams",
-    ],
-    image: "https://res.cloudinary.com/nlvtbdsn/image/upload/v1783151358/devcompanion_rxfjhq.png",
-  },
 ];
 
 export function Projects() {
