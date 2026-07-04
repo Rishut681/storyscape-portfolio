@@ -28,8 +28,9 @@ export function Story() {
   }, []);
 
   return (
-    <section id="story" ref={ref} className="rule-t py-20 md:py-28">
-      <div className="mx-auto max-w-[1400px] px-6">
+    <section id="story" ref={ref} className="relative rule-t py-20 md:py-28 wash-ochre">
+      <div className="pointer-events-none absolute inset-0 wash-ink" aria-hidden />
+      <div className="relative mx-auto max-w-[1400px] px-6">
         <div className="rule-b mb-10 flex items-baseline justify-between pb-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
           <span>Section II</span>
           <span>The Story</span>
@@ -38,7 +39,7 @@ export function Story() {
 
         <div className="grid grid-cols-12 gap-x-6 gap-y-12">
           <h2 className="col-span-12 font-serif text-5xl leading-[0.95] text-ink-deep md:col-span-7 md:text-7xl">
-            A quiet <em className="italic">practice</em>, kept honest by shipping.
+            A quiet <em className="italic" style={{ color: "var(--ochre)" }}>practice</em>, kept honest by shipping.
           </h2>
           <p className="col-span-12 self-end text-sm leading-relaxed text-ink md:col-span-4 md:col-start-9">
             <span className="mr-1 float-left font-serif text-6xl leading-[0.85] text-ink-deep">R</span>
@@ -47,12 +48,19 @@ export function Story() {
           </p>
         </div>
 
-        <ol className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-4">
+        <ol className="relative mt-16 grid grid-cols-1 gap-10 md:grid-cols-4">
+          <span className="pointer-events-none absolute left-0 right-0 top-4 hidden h-px bg-ink/15 md:block" aria-hidden />
           {CHAPTERS.map((c, i) => (
-            <li key={c.year} data-story-item className="rule-t pt-4">
+            <li key={c.year} data-story-item className="relative pt-10">
+              <span
+                className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border border-ink-deep bg-paper font-serif text-sm text-ink-deep"
+                style={{ boxShadow: "0 0 0 4px var(--paper)" }}
+              >
+                {i + 1}
+              </span>
               <div className="flex items-baseline justify-between text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                 <span>Ch. {String(i + 1).padStart(2, "0")}</span>
-                <span>{c.year}</span>
+                <span style={{ color: "var(--ochre)" }}>{c.year}</span>
               </div>
               <p className="mt-3 font-serif text-3xl italic text-ink-deep">{c.title}</p>
               <p className="mt-3 text-sm leading-relaxed text-ink">{c.text}</p>

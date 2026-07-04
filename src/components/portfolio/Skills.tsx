@@ -71,7 +71,7 @@ export function Skills() {
         <div className="grid grid-cols-12 gap-x-6 gap-y-10">
           <h2 className="col-span-12 font-serif text-5xl leading-[0.95] text-ink-deep md:col-span-7 md:text-7xl">
             Four disciplines,<br />
-            <em className="italic">one hand</em> on the pen.
+            <em className="italic" style={{ color: "var(--ochre)" }}>one hand</em> on the pen.
           </h2>
           <p className="col-span-12 self-end text-sm leading-relaxed text-ink md:col-span-4 md:col-start-9">
             The studio is a T-shape — deep in a handful of tools, wide enough that a project rarely
@@ -79,24 +79,31 @@ export function Skills() {
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2">
+        <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">
           {DISCIPLINES.map((d) => (
             <article
               key={d.no}
               data-skill-card
-              className="group rule-t pt-6 transition-colors"
+              className="group relative overflow-hidden border border-ink/10 bg-paper p-6 transition-all hover:-translate-y-1 hover:border-ink-deep md:p-8"
             >
-              <div className="flex items-baseline justify-between">
-                <span className="font-serif text-2xl italic text-muted-foreground">{d.no}</span>
+              <span
+                className="pointer-events-none absolute -right-6 -top-8 font-serif text-[9rem] leading-none opacity-10 transition-opacity group-hover:opacity-30"
+                style={{ color: "var(--ochre)" }}
+                aria-hidden
+              >
+                {d.no}
+              </span>
+              <div className="relative flex items-baseline justify-between">
+                <span className="font-serif text-xl italic text-muted-foreground">№ {d.no}</span>
                 <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                   {d.meta}
                 </span>
               </div>
-              <h3 className="mt-3 font-serif text-4xl leading-tight text-ink-deep md:text-5xl">
+              <h3 className="relative mt-4 font-serif text-4xl leading-tight text-ink-deep md:text-5xl">
                 {d.title}
               </h3>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink">{d.body}</p>
-              <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              <p className="relative mt-4 max-w-xl text-sm leading-relaxed text-ink">{d.body}</p>
+              <ul className="relative mt-6 flex flex-wrap gap-x-4 gap-y-2 border-t border-ink/10 pt-4 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                 {d.tools.map((t) => (
                   <li key={t} className="before:mr-3 before:content-['·']">{t}</li>
                 ))}
