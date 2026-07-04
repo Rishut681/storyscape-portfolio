@@ -2,7 +2,7 @@ const LINKS = [
   { href: "#story", label: "Story" },
   { href: "#skills", label: "Craft" },
   { href: "#projects", label: "Work" },
-  { href: "#impact", label: "Praise" },
+  { href: "#impact", label: "Process" },
   { href: "#contact", label: "Contact" },
 ];
 

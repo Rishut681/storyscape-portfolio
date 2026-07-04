@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+const WHATSAPP_NUMBER = "918882905323"; // country code + number
+const CONTACT_EMAIL = "rishut681@gmail.com";
+
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
@@ -14,6 +17,40 @@ const fieldCls =
 
 export function Contact() {
   const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    projectType: "",
+    budget: "",
+    brief: "",
+  });
+
+  const update = (k: keyof typeof form) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  const buildMessage = () =>
+    `New commission enquiry ✨%0A%0A` +
+    `• Name: ${encodeURIComponent(form.name)}%0A` +
+    `• Email: ${encodeURIComponent(form.email)}%0A` +
+    `• Project type: ${encodeURIComponent(form.projectType)}%0A` +
+    `• Budget: ${encodeURIComponent(form.budget)}%0A%0A` +
+    `Brief:%0A${encodeURIComponent(form.brief)}`;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const msg = buildMessage();
+    // Open WhatsApp with prefilled template
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    // Also open a mailto fallback in the background
+    const subject = encodeURIComponent(`New enquiry from ${form.name || "the studio site"}`);
+    const body =
+      `Name: ${form.name}\nEmail: ${form.email}\nProject type: ${form.projectType}\n` +
+      `Budget: ${form.budget}\n\nBrief:\n${form.brief}`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${encodeURIComponent(body)}`;
+    setSent(true);
+    setTimeout(() => setSent(false), 5000);
+  };
 
   return (
     <section id="contact" className="rule-t py-20 md:py-28">
@@ -36,61 +73,50 @@ export function Contact() {
             <dl className="mt-10 space-y-4 text-sm">
               <div className="rule-t pt-3">
                 <dt className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">Post</dt>
-                <dd className="mt-1 font-serif text-xl text-ink-deep">hello@rishu.dev</dd>
+                <dd className="mt-1 font-serif text-xl text-ink-deep">
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="ink-underline ink-underline-hover pb-0.5">{CONTACT_EMAIL}</a>
+                </dd>
+              </div>
+              <div className="rule-t pt-3">
+                <dt className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">Phone</dt>
+                <dd className="mt-1 font-serif text-xl text-ink-deep">
+                  <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer" className="ink-underline ink-underline-hover pb-0.5">+91 88829 05323</a>
+                </dd>
               </div>
               <div className="rule-t pt-3">
                 <dt className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">Studio</dt>
-                <dd className="mt-1 font-serif text-xl text-ink-deep">Bengaluru · UTC +5:30</dd>
+                <dd className="mt-1 font-serif text-xl text-ink-deep">Gurgaon · UTC +5:30</dd>
               </div>
               <div className="rule-t pt-3">
                 <dt className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">Elsewhere</dt>
                 <dd className="mt-1 flex flex-wrap gap-x-5 gap-y-1 font-serif text-lg text-ink-deep">
-                  <a href="#" className="ink-underline ink-underline-hover pb-0.5 italic">GitHub</a>
-                  <a href="#" className="ink-underline ink-underline-hover pb-0.5 italic">LinkedIn</a>
-                  <a href="#" className="ink-underline ink-underline-hover pb-0.5 italic">Twitter</a>
-                  <a href="#" className="ink-underline ink-underline-hover pb-0.5 italic">Dribbble</a>
+                  <a href="https://github.com/Rishut681/" target="_blank" rel="noreferrer" className="ink-underline ink-underline-hover pb-0.5 italic">GitHub</a>
+                  <a href="https://www.linkedin.com/in/rishu-raj-322637253/" target="_blank" rel="noreferrer" className="ink-underline ink-underline-hover pb-0.5 italic">LinkedIn</a>
                 </dd>
               </div>
             </dl>
           </div>
 
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-              setTimeout(() => setSent(false), 4000);
-            }}
+            onSubmit={handleSubmit}
             className="col-span-12 md:col-span-6 md:col-start-7"
           >
             <div className="grid grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2">
-              <Field label="Your name"><input required className={fieldCls} placeholder="Rohan Mehta" /></Field>
-              <Field label="Email"><input required type="email" className={fieldCls} placeholder="rohan@acme.com" /></Field>
-              <Field label="Project type">
-                <select className={fieldCls}>
-                  <option>SaaS platform</option>
-                  <option>Marketing site</option>
-                  <option>E-commerce</option>
-                  <option>AI product</option>
-                </select>
-              </Field>
-              <Field label="Budget">
-                <select className={fieldCls}>
-                  <option>$10k — $25k</option>
-                  <option>$25k — $50k</option>
-                  <option>$50k+</option>
-                </select>
-              </Field>
+              <Field label="Your name"><input required value={form.name} onChange={update("name")} className={fieldCls} placeholder="Rohan Mehta" /></Field>
+              <Field label="Email"><input required type="email" value={form.email} onChange={update("email")} className={fieldCls} placeholder="rohan@acme.com" /></Field>
+              <Field label="Project type"><input value={form.projectType} onChange={update("projectType")} className={fieldCls} placeholder="SaaS platform, marketing site, AI product…" /></Field>
+              <Field label="Budget"><input value={form.budget} onChange={update("budget")} className={fieldCls} placeholder="₹ / $ — your comfortable range" /></Field>
             </div>
             <div className="mt-6">
               <Field label="A short brief">
-                <textarea rows={5} className={`${fieldCls} resize-none`} placeholder="We're building a SaaS platform for workflow automation. Modern UI, auth, dashboards, billing. Would love to talk." />
+                <textarea required rows={5} value={form.brief} onChange={update("brief")} className={`${fieldCls} resize-none`} placeholder="We're building a SaaS platform for workflow automation. Modern UI, auth, dashboards, billing. Would love to talk." />
               </Field>
             </div>
             <div className="mt-8 flex items-center justify-between">
               <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                {sent ? "Received — I'll write back within a day ✓" : "One reader. One reply."}
+                {sent ? "Opening WhatsApp & email ✓" : "Sends to WhatsApp + email."}
               </p>
-              <button className="border border-ink-deep bg-ink-deep px-6 py-3 text-xs uppercase tracking-[0.22em] text-paper transition-colors hover:bg-transparent hover:text-ink-deep">
+              <button type="submit" className="border border-ink-deep bg-ink-deep px-6 py-3 text-xs uppercase tracking-[0.22em] text-paper transition-colors hover:bg-transparent hover:text-ink-deep">
                 Send letter →
               </button>
             </div>
