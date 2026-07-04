@@ -1,9 +1,3 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
 type Discipline = {
   no: string;
   title: string;
@@ -44,29 +38,18 @@ const DISCIPLINES: Discipline[] = [
 ];
 
 export function Skills() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from("[data-skill-card]", {
-        opacity: 0,
-        y: 30,
-        stagger: 0.08,
-        duration: 0.9,
-        ease: "power2.out",
-        scrollTrigger: { trigger: ref.current, start: "top 90%", once: true },
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section id="skills" ref={ref} className="relative rule-t overflow-hidden bg-paper py-20 text-ink-deep md:py-28">
+    <section id="skills" className="relative rule-t overflow-hidden bg-paper-2 py-20 text-ink-deep md:py-28">
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, var(--ochre), transparent)" }}
+        className="pointer-events-none absolute inset-0 opacity-80"
+        style={{
+          background:
+            "linear-gradient(135deg, transparent 0%, oklch(0.97 0.005 85 / 0.9) 42%, transparent 72%), radial-gradient(circle at 18% 12%, oklch(0.88 0.08 60 / 0.45), transparent 28%)",
+        }}
         aria-hidden
       />
-      <div className="mx-auto max-w-[1400px] px-6">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-ochre/70" aria-hidden />
+      <div className="relative mx-auto max-w-[1400px] px-6">
         <div className="mb-10 flex items-baseline justify-between border-b border-ink/10 pb-3 text-[11px] uppercase tracking-[0.22em] text-ink/55">
           <span>Section III</span>
           <span>The Craft</span>
@@ -84,36 +67,39 @@ export function Skills() {
           </p>
         </div>
 
-        <div className="relative mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="relative mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
           {DISCIPLINES.map((d) => (
             <article
               key={d.no}
               data-skill-card
-              className="group relative overflow-hidden border border-ink/10 bg-card/85 p-6 shadow-[0_24px_80px_oklch(0.1_0_0/0.08)] backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-[color:var(--ochre)] hover:bg-card md:p-8"
+              className="group relative min-h-[260px] overflow-hidden border border-ink/10 bg-card p-6 opacity-100 shadow-[0_18px_60px_oklch(0.1_0_0/0.08)] transition-all hover:-translate-y-1 hover:border-ochre/70 hover:shadow-[0_26px_90px_oklch(0.1_0_0/0.12)] md:p-8"
             >
               <div
-                className="pointer-events-none absolute inset-x-0 top-0 h-1 opacity-80"
-                style={{ background: "linear-gradient(90deg, var(--ochre), transparent)" }}
+                className="pointer-events-none absolute inset-y-0 left-0 w-1 opacity-80"
+                style={{ background: "linear-gradient(180deg, var(--ochre), transparent)" }}
                 aria-hidden
               />
+              <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-ink/10" aria-hidden />
               <span
-                className="pointer-events-none absolute -right-4 -top-10 font-serif text-[9rem] leading-none opacity-15 transition-opacity group-hover:opacity-35"
+                className="pointer-events-none absolute -right-4 -top-10 font-serif text-[9rem] leading-none opacity-10 transition-opacity group-hover:opacity-25"
                 style={{ color: "var(--ochre)" }}
                 aria-hidden
               >
                 {d.no}
               </span>
-              <div className="relative flex items-baseline justify-between">
-                <span className="font-serif text-xl italic text-ink/45">№ {d.no}</span>
-                <span className="text-right text-[11px] uppercase tracking-[0.22em] text-ink/50">
+              <div className="relative flex items-start justify-between gap-6">
+                <span className="grid size-12 shrink-0 place-items-center border border-ochre/45 font-serif text-2xl italic text-ochre">
+                  {d.no}
+                </span>
+                <span className="max-w-[16rem] text-right text-[11px] uppercase tracking-[0.18em] text-ink/55">
                   {d.meta}
                 </span>
               </div>
-              <h3 className="relative mt-4 font-serif text-4xl leading-tight text-ink-deep md:text-5xl">
+              <h3 className="relative mt-6 font-serif text-4xl leading-tight text-ink-deep md:text-5xl">
                 {d.title}
               </h3>
-              <p className="relative mt-4 max-w-xl text-sm leading-relaxed text-ink/70">{d.body}</p>
-              <ul className="relative mt-6 flex flex-wrap gap-x-4 gap-y-2 border-t border-ink/10 pt-4 text-[11px] uppercase tracking-[0.2em] text-ink/55">
+              <p className="relative mt-4 max-w-xl text-sm leading-relaxed text-ink/75">{d.body}</p>
+              <ul className="relative mt-6 flex flex-wrap gap-x-4 gap-y-2 border-t border-ink/10 pt-4 text-[11px] uppercase tracking-[0.16em] text-ink/60">
                 {d.tools.map((t) => (
                   <li key={t} className="before:mr-3 before:content-['·']">{t}</li>
                 ))}
