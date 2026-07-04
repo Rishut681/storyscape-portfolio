@@ -60,7 +60,6 @@ export function Skills() {
         scrollTrigger: { trigger: ref.current, start: "top 70%" },
       });
       gsap.from("[data-skill-edge]", {
-        drawSVG: 0,
         opacity: 0,
         duration: 1,
         stagger: 0.03,
