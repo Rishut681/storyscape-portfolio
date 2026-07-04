@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -17,10 +17,54 @@ type Project = {
   year: string;
   swatch: string;
   bullets: string[];
-  preview: ReactNode;
+  image: string;
+  live?: string;
+  repo?: string;
 };
 
 const PROJECTS: Project[] = [
+  {
+    id: "taskrelay",
+    name: "TaskRelay",
+    tag: "Task management platform",
+    headline: "Relay your work, effortlessly.",
+    desc: "A collaborative task management platform that helps teams organise, track and hand off work with clarity and speed.",
+    role: "Full-Stack Engineer",
+    duration: "8 weeks",
+    focus: "Collaboration, UX, Realtime",
+    year: "2025",
+    swatch: "#1e293b",
+    stack: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
+    bullets: [
+      "Designed a fluid, keyboard-first task board",
+      "Built realtime updates for team collaboration",
+      "Implemented role-based access and workflow states",
+      "Shipped a clean dashboard with progress insights",
+    ],
+    image: "https://res.cloudinary.com/nlvtbdsn/image/upload/v1783151329/TaskRelay_lfe6au.png",
+    repo: "https://github.com/Rishut681/task_relay",
+  },
+  {
+    id: "chatpati",
+    name: "Chatpati.shop",
+    tag: "E-commerce experience",
+    headline: "A tastier way to shop.",
+    desc: "A vibrant e-commerce storefront for a snack & lifestyle brand, blending playful visuals with a smooth buying experience.",
+    role: "Frontend Engineer",
+    duration: "6 weeks",
+    focus: "Storefront, UI, Performance",
+    year: "2025",
+    swatch: "#7c2d12",
+    stack: ["React", "Vite", "Tailwind CSS", "Node.js"],
+    bullets: [
+      "Crafted an expressive, brand-forward product UI",
+      "Built cart, checkout and order flows end-to-end",
+      "Optimised images and routes for fast page loads",
+      "Designed a responsive layout across all devices",
+    ],
+    image: "https://res.cloudinary.com/nlvtbdsn/image/upload/v1783151331/Chatpati_o5ozhp.png",
+    repo: "https://github.com/neha962/chatpati-style-hub",
+  },
   {
     id: "wandrly",
     name: "Wandrly",
@@ -39,35 +83,7 @@ const PROJECTS: Project[] = [
       "Optimised performance for speed and SEO",
       "Designed a clean, immersive booking experience",
     ],
-    preview: (
-      <div className="relative h-full w-full overflow-hidden rounded-lg" style={{ background: "linear-gradient(160deg, #0b3b5c 0%, #0a1d33 60%, #06111f 100%)" }}>
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 30% 10%, oklch(0.9 0.05 240 / 0.35), transparent 55%)" }} />
-        <div className="relative flex h-full flex-col p-5">
-          <div className="mb-4 flex items-center justify-between text-xs text-white/90">
-            <span className="font-mono">wandrly</span>
-            <div className="flex gap-3 text-white/70"><span>Explore</span><span>Trips</span><span>Hotels</span><span>Guides</span></div>
-            <span className="rounded border border-white/30 px-2 py-0.5">Sign in</span>
-          </div>
-          <div className="my-auto text-center">
-            <p className="font-display text-3xl font-medium text-white">Your journey,<br/>perfectly planned.</p>
-            <div className="mx-auto mt-6 flex max-w-md items-center gap-2 rounded-full bg-white/95 p-1.5 text-xs text-slate-700">
-              <span className="flex-1 px-3 py-1.5 text-left">📍 Where to?</span>
-              <span className="px-3 py-1.5">📅 Add dates</span>
-              <span className="px-3 py-1.5">👥 2 Guests</span>
-              <span className="rounded-full bg-cyan-500 px-4 py-1.5 text-white">Search</span>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="mb-2 flex justify-between text-xs text-white/80"><span>Popular destinations</span><span>View all</span></div>
-            <div className="grid grid-cols-4 gap-2">
-              {["#2563eb", "#f59e0b", "#10b981", "#ef4444"].map((c, i) => (
-                <div key={i} className="aspect-video rounded" style={{ background: `linear-gradient(135deg, ${c}, #0b1e33)` }} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    ),
+    image: "https://res.cloudinary.com/nlvtbdsn/image/upload/v1783151285/wandrly_fmnkmv.png",
   },
   {
     id: "devcompanion",
@@ -87,78 +103,7 @@ const PROJECTS: Project[] = [
       "Optimised token usage with smart context windows",
       "Shipped analytics dashboard for teams",
     ],
-    preview: (
-      <div className="relative h-full w-full overflow-hidden rounded-lg bg-[#0a0f1a] p-5 font-mono text-xs text-emerald-300">
-        <div className="mb-3 flex gap-2"><span className="h-3 w-3 rounded-full bg-red-400"/><span className="h-3 w-3 rounded-full bg-yellow-400"/><span className="h-3 w-3 rounded-full bg-emerald-400"/></div>
-        <p>› devcompanion analyze --file hero.tsx</p>
-        <p className="mt-2 text-cyan-300">✓ Detected 3 refactor opportunities</p>
-        <p className="mt-1 text-white/70">1. Extract animation logic into a hook</p>
-        <p className="text-white/70">2. Memoize hero scene props</p>
-        <p className="text-white/70">3. Split content from presentation</p>
-        <p className="mt-4 text-lime-300">→ Apply all suggestions? [Y/n]</p>
-      </div>
-    ),
-  },
-  {
-    id: "nexa",
-    name: "Nexa Commerce",
-    tag: "Headless e-commerce",
-    headline: "Storefronts, unbundled.",
-    desc: "A headless e-commerce platform enabling brands to launch premium storefronts in days, not months.",
-    role: "Frontend Lead",
-    duration: "4 months",
-    focus: "Design Systems, Perf",
-    year: "2024",
-    swatch: "#1e0b3b",
-    stack: ["Next.js", "Shopify", "GraphQL", "Tailwind"],
-    bullets: [
-      "Designed a themeable storefront kit",
-      "Reached 98+ Lighthouse across templates",
-      "Built PDP with 3D product views",
-      "Reduced TTFB by 40% vs previous stack",
-    ],
-    preview: (
-      <div className="relative h-full w-full overflow-hidden rounded-lg" style={{ background: "linear-gradient(135deg, #1e0b3b, #0a0620)" }}>
-        <div className="p-5">
-          <p className="font-display text-2xl text-white">NEXA / SS26</p>
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            {[1,2,3,4,5,6].map((i) => (
-              <div key={i} className="aspect-square rounded-lg" style={{ background: `linear-gradient(${i*40}deg, #a855f7, #1e0b3b)` }} />
-            ))}
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: "helpdesk",
-    name: "Helpdesk System",
-    tag: "Customer support platform",
-    headline: "Support that feels human.",
-    desc: "A modern, keyboard-first support tool that unifies tickets, chat and knowledge base for lean teams.",
-    role: "Full-Stack Engineer",
-    duration: "12 weeks",
-    focus: "Realtime, Workflow",
-    year: "2023",
-    swatch: "#0f172a",
-    stack: ["React", "Node.js", "WebSockets", "Postgres"],
-    bullets: [
-      "Realtime multi-agent inbox",
-      "SLA and routing engine",
-      "Command palette-first UI",
-      "AI reply suggestions",
-    ],
-    preview: (
-      <div className="relative h-full w-full overflow-hidden rounded-lg bg-slate-900 p-5">
-        <div className="mb-3 flex items-center gap-2 text-xs text-white/70"><span className="h-2 w-2 rounded-full bg-emerald-400"/> 24 open tickets</div>
-        {[1,2,3,4].map((i) => (
-          <div key={i} className="mb-2 flex items-center justify-between rounded border border-white/10 bg-white/5 p-3 text-xs">
-            <div className="text-white">Ticket #{1200+i}</div>
-            <div className="text-white/60">2m ago</div>
-          </div>
-        ))}
-      </div>
-    ),
+    image: "https://res.cloudinary.com/nlvtbdsn/image/upload/v1783151358/devcompanion_rxfjhq.png",
   },
 ];
 
@@ -197,7 +142,12 @@ export function Projects() {
         <div key={featured.id} data-project-feature className="mt-14 grid grid-cols-12 gap-x-6 gap-y-8">
           <div className="col-span-12 md:col-span-7">
             <div className="aspect-[4/3] w-full overflow-hidden bg-ink-deep">
-              {featured.preview}
+              <img
+                src={featured.image}
+                alt={`${featured.name} — ${featured.tag}`}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
             </div>
             <div className="mt-3 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
               <span>Fig. {String(active + 1).padStart(2, "0")}</span>
@@ -237,12 +187,16 @@ export function Projects() {
             </div>
 
             <div className="mt-8 flex gap-6">
-              <a href="#" className="ink-underline ink-underline-hover pb-0.5 text-sm uppercase tracking-[0.18em] text-ink-deep">
-                Visit live site ↗
-              </a>
-              <a href="#" className="ink-underline ink-underline-hover pb-0.5 text-sm uppercase tracking-[0.18em] text-ink-deep">
-                Read the case →
-              </a>
+              {featured.live && (
+                <a href={featured.live} target="_blank" rel="noreferrer" className="ink-underline ink-underline-hover pb-0.5 text-sm uppercase tracking-[0.18em] text-ink-deep">
+                  Visit live site ↗
+                </a>
+              )}
+              {featured.repo && (
+                <a href={featured.repo} target="_blank" rel="noreferrer" className="ink-underline ink-underline-hover pb-0.5 text-sm uppercase tracking-[0.18em] text-ink-deep">
+                  View on GitHub →
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -262,7 +216,12 @@ export function Projects() {
                   className="group text-left"
                 >
                   <div className="aspect-[4/3] w-full overflow-hidden bg-paper-2 transition-transform group-hover:-translate-y-1">
-                    <div className="h-full w-full" style={{ background: `linear-gradient(135deg, ${p.swatch}, #0d0d0d)` }} />
+                    <img
+                      src={p.image}
+                      alt={`${p.name} — ${p.tag}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                   <div className="mt-3 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                     <span>№ {String(idx + 1).padStart(2, "0")}</span>
