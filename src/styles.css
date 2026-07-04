@@ -64,6 +64,8 @@
   --color-ink: var(--ink);
   --color-ink-deep: var(--ink-deep);
   --color-rule: var(--rule);
+  --color-ochre: var(--ochre);
+  --color-ochre-soft: var(--ochre-soft);
   --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
@@ -189,6 +191,18 @@
     radial-gradient(oklch(0.1 0 0 / 0.02) 1px, transparent 1px);
   background-size: 3px 3px, 7px 7px;
   background-position: 0 0, 1px 2px;
+}
+
+@utility wash-ochre {
+  background-image: radial-gradient(ellipse at top right, oklch(0.88 0.08 60 / 0.6), transparent 60%);
+}
+@utility wash-ink {
+  background-image: radial-gradient(ellipse at bottom left, oklch(0.1 0 0 / 0.06), transparent 55%);
+}
+@utility stamp {
+  border: 1.5px solid var(--ochre);
+  color: var(--ochre);
+  transform: rotate(-6deg);
 }
 
 @keyframes float-slow {
