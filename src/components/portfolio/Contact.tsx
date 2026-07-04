@@ -40,16 +40,10 @@ export function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const msg = buildMessage();
-    // Open WhatsApp with prefilled template
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
-    // Also open a mailto fallback in the background
-    const subject = encodeURIComponent(`New enquiry from ${form.name || "the studio site"}`);
-    const body =
-      `Name: ${form.name}\nEmail: ${form.email}\nProject type: ${form.projectType}\n` +
-      `Budget: ${form.budget}\n\nBrief:\n${form.brief}`;
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${encodeURIComponent(body)}`;
+    setForm({ name: "", email: "", projectType: "", budget: "", brief: "" });
     setSent(true);
-    setTimeout(() => setSent(false), 5000);
+    setTimeout(() => setSent(false), 4000);
   };
 
   return (
@@ -114,7 +108,7 @@ export function Contact() {
             </div>
             <div className="mt-8 flex items-center justify-between">
               <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                {sent ? "Opening WhatsApp & email ✓" : "Sends to WhatsApp + email."}
+                Sends directly to WhatsApp.
               </p>
               <button type="submit" className="border border-ink-deep bg-ink-deep px-6 py-3 text-xs uppercase tracking-[0.22em] text-paper transition-colors hover:bg-transparent hover:text-ink-deep">
                 Send letter →
@@ -133,6 +127,24 @@ export function Contact() {
           <p>End of issue · <span className="text-ink-deep">↑ Back to top</span></p>
         </div>
       </footer>
+
+      {sent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-deep/40 px-6 animate-in fade-in">
+          <div className="max-w-sm rounded-none border border-ink-deep bg-paper p-8 text-center shadow-[0_30px_80px_oklch(0.1_0_0/0.25)]">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">Sent ✓</p>
+            <h3 className="mt-3 font-serif text-3xl leading-tight text-ink-deep">Off to WhatsApp.</h3>
+            <p className="mt-3 text-sm leading-relaxed text-ink">
+              Your brief just opened in a new tab — hit send there and I'll write back within a day.
+            </p>
+            <button
+              onClick={() => setSent(false)}
+              className="mt-6 border border-ink-deep bg-ink-deep px-5 py-2 text-[11px] uppercase tracking-[0.22em] text-paper transition-colors hover:bg-transparent hover:text-ink-deep"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
