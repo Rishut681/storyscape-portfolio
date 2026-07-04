@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -15,7 +15,7 @@ type Project = {
   focus: string;
   bullets: string[];
   stack: string[];
-  preview: JSX.Element;
+  preview: ReactNode;
 };
 
 const PROJECTS: Project[] = [
