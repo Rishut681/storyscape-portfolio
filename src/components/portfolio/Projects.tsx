@@ -142,13 +142,27 @@ export function Projects() {
         {/* Featured piece — magazine 12-col */}
         <div key={featured.id} data-project-feature className="mt-14 grid grid-cols-12 gap-x-6 gap-y-8">
           <div className="col-span-12 md:col-span-7">
-            <div className="aspect-[4/3] w-full overflow-hidden border border-ink/10 bg-paper-2">
-              <img
-                src={featured.image}
-                alt={`${featured.name} — ${featured.tag}`}
-                loading="lazy"
-                className="h-full w-full object-contain"
-              />
+            <div
+              className="relative overflow-hidden rounded-lg border border-ink/15 bg-paper shadow-[0_30px_60px_-30px_rgba(0,0,0,0.35)]"
+              style={{ backgroundColor: featured.swatch }}
+            >
+              {/* Browser chrome */}
+              <div className="flex items-center gap-2 border-b border-ink/10 bg-paper-2 px-3 py-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-ink/25" />
+                <span className="h-2.5 w-2.5 rounded-full bg-ink/25" />
+                <span className="h-2.5 w-2.5 rounded-full bg-ink/25" />
+                <span className="ml-3 truncate rounded bg-paper px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+                  {featured.name.toLowerCase().replace(/[^a-z0-9]/g, "")}.app
+                </span>
+              </div>
+              <div className="aspect-[16/10] w-full overflow-hidden bg-paper">
+                <img
+                  src={featured.image}
+                  alt={`${featured.name} — ${featured.tag}`}
+                  loading="lazy"
+                  className="h-full w-full object-cover object-top"
+                />
+              </div>
             </div>
             <div className="mt-3 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
               <span>Fig. {String(active + 1).padStart(2, "0")}</span>
@@ -216,13 +230,20 @@ export function Projects() {
                   onClick={() => setActive(idx)}
                   className="group text-left"
                 >
-                  <div className="aspect-[4/3] w-full overflow-hidden border border-ink/10 bg-paper-2 transition-transform group-hover:-translate-y-1">
-                    <img
-                      src={p.image}
-                      alt={`${p.name} — ${p.tag}`}
-                      loading="lazy"
-                      className="h-full w-full object-contain"
-                    />
+                  <div className="overflow-hidden rounded-md border border-ink/15 bg-paper shadow-[0_18px_40px_-24px_rgba(0,0,0,0.3)] transition-all group-hover:-translate-y-1 group-hover:shadow-[0_28px_50px_-24px_rgba(0,0,0,0.4)]">
+                    <div className="flex items-center gap-1.5 border-b border-ink/10 bg-paper-2 px-2 py-1.5">
+                      <span className="h-2 w-2 rounded-full bg-ink/25" />
+                      <span className="h-2 w-2 rounded-full bg-ink/25" />
+                      <span className="h-2 w-2 rounded-full bg-ink/25" />
+                    </div>
+                    <div className="aspect-[16/10] w-full overflow-hidden bg-paper-2">
+                      <img
+                        src={p.image}
+                        alt={`${p.name} — ${p.tag}`}
+                        loading="lazy"
+                        className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                      />
+                    </div>
                   </div>
                   <div className="mt-3 flex items-baseline justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                     <span>№ {String(idx + 1).padStart(2, "0")}</span>
