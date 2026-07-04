@@ -40,16 +40,10 @@ export function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const msg = buildMessage();
-    // Open WhatsApp with prefilled template
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
-    // Also open a mailto fallback in the background
-    const subject = encodeURIComponent(`New enquiry from ${form.name || "the studio site"}`);
-    const body =
-      `Name: ${form.name}\nEmail: ${form.email}\nProject type: ${form.projectType}\n` +
-      `Budget: ${form.budget}\n\nBrief:\n${form.brief}`;
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${encodeURIComponent(body)}`;
+    setForm({ name: "", email: "", projectType: "", budget: "", brief: "" });
     setSent(true);
-    setTimeout(() => setSent(false), 5000);
+    setTimeout(() => setSent(false), 4000);
   };
 
   return (
@@ -114,7 +108,7 @@ export function Contact() {
             </div>
             <div className="mt-8 flex items-center justify-between">
               <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                {sent ? "Opening WhatsApp & email ✓" : "Sends to WhatsApp + email."}
+                Sends directly to WhatsApp.
               </p>
               <button type="submit" className="border border-ink-deep bg-ink-deep px-6 py-3 text-xs uppercase tracking-[0.22em] text-paper transition-colors hover:bg-transparent hover:text-ink-deep">
                 Send letter →
