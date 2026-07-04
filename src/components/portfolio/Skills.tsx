@@ -61,8 +61,6 @@ export function Skills() {
 
   return (
     <section id="skills" ref={ref} className="relative rule-t overflow-hidden bg-paper py-20 text-ink-deep md:py-28">
-      <div className="pointer-events-none absolute inset-0 wash-ochre opacity-80" aria-hidden />
-      <div className="pointer-events-none absolute inset-0 wash-ink" aria-hidden />
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
         style={{ background: "linear-gradient(90deg, transparent, var(--ochre), transparent)" }}
