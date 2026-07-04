@@ -4,11 +4,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MILESTONES = [
-  { year: "2019", text: "Started my journey with a curiosity for interfaces and the web." },
-  { year: "2021", text: "Began building products end-to-end. Ship, learn, repeat.", active: true },
-  { year: "2023", text: "Fell in love with product systems, performance and developer experience." },
-  { year: "Today", text: "I help founders turn ideas into premium digital products that scale." },
+const CHAPTERS = [
+  { year: "2019", title: "Curiosity", text: "First lines of CSS at a Delhi coffee shop. A quiet obsession begins with how software feels." },
+  { year: "2021", title: "Craft", text: "Ships end-to-end products with two small startups. Learns the shape of a good decision." },
+  { year: "2023", title: "Practice", text: "Falls hard for design systems, edge performance, and the joy of a codebase that reads like prose." },
+  { year: "2026", title: "Studio", text: "Independent studio of one. Works with a small number of founders, once a season." },
 ];
 
 export function Story() {
@@ -17,55 +17,48 @@ export function Story() {
     const ctx = gsap.context(() => {
       gsap.from("[data-story-item]", {
         opacity: 0,
-        x: -30,
-        stagger: 0.15,
+        y: 24,
+        stagger: 0.12,
         duration: 0.8,
         ease: "power2.out",
-        scrollTrigger: { trigger: ref.current, start: "top 70%" },
+        scrollTrigger: { trigger: ref.current, start: "top 75%" },
       });
     }, ref);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="story" ref={ref} className="relative border-t border-border/40 py-28">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-[1fr_1.2fr_1fr]">
-        <div>
-          <p className="mb-4 font-mono text-xs tracking-widest text-brand-cyan">MY STORY</p>
-          <h2 className="font-display text-4xl font-medium leading-tight tracking-tight">
-            Building at the intersection of{" "}
-            <span className="text-brand-cyan">design</span>,{" "}
-            <span className="text-brand-amber">code</span> and{" "}
-            <span className="text-brand-magenta">impact</span>.
-          </h2>
+    <section id="story" ref={ref} className="rule-t py-20 md:py-28">
+      <div className="mx-auto max-w-[1400px] px-6">
+        <div className="rule-b mb-10 flex items-baseline justify-between pb-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+          <span>Section II</span>
+          <span>The Story</span>
+          <span>pp. 14 — 22</span>
         </div>
 
-        <ol className="relative space-y-8 border-l border-border/60 pl-8">
-          {MILESTONES.map((m) => (
-            <li key={m.year} data-story-item className="relative">
-              <span
-                className={`absolute -left-[41px] top-1 grid h-4 w-4 place-items-center rounded-full border ${m.active ? "border-brand-cyan bg-brand-cyan/30 glow-cyan" : "border-muted-foreground/40 bg-background"}`}
-              >
-                {m.active && <span className="h-1.5 w-1.5 rounded-full bg-brand-cyan" />}
-              </span>
-              <p className="font-mono text-sm text-brand-cyan">{m.year}</p>
-              <p className="mt-1 max-w-md text-sm text-muted-foreground">{m.text}</p>
+        <div className="grid grid-cols-12 gap-x-6 gap-y-12">
+          <h2 className="col-span-12 font-serif text-5xl leading-[0.95] text-ink-deep md:col-span-7 md:text-7xl">
+            A quiet <em className="italic">practice</em>, kept honest by shipping.
+          </h2>
+          <p className="col-span-12 self-end text-sm leading-relaxed text-ink md:col-span-4 md:col-start-9">
+            <span className="mr-1 float-left font-serif text-6xl leading-[0.85] text-ink-deep">R</span>
+            ishu writes software the way a printmaker pulls a proof — one careful pass at a time, with an
+            eye on the register marks. This is a short account of how the studio came to be.
+          </p>
+        </div>
+
+        <ol className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-4">
+          {CHAPTERS.map((c, i) => (
+            <li key={c.year} data-story-item className="rule-t pt-4">
+              <div className="flex items-baseline justify-between text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                <span>Ch. {String(i + 1).padStart(2, "0")}</span>
+                <span>{c.year}</span>
+              </div>
+              <p className="mt-3 font-serif text-3xl italic text-ink-deep">{c.title}</p>
+              <p className="mt-3 text-sm leading-relaxed text-ink">{c.text}</p>
             </li>
           ))}
         </ol>
-
-        <aside className="rounded-xl border border-border/60 bg-card/40 p-6 backdrop-blur">
-          <p className="mb-4 text-sm font-medium">My approach</p>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>· Product thinking first</li>
-            <li>· Design with purpose</li>
-            <li>· Code with precision</li>
-            <li>· Ship and iterate</li>
-          </ul>
-          <blockquote className="mt-6 border-l-2 border-brand-lime pl-4 text-sm italic text-foreground/80">
-            "I don't just write code. I craft digital experiences that people remember."
-          </blockquote>
-        </aside>
       </div>
     </section>
   );
