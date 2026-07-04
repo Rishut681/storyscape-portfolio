@@ -53,7 +53,7 @@ export function Skills() {
         stagger: 0.08,
         duration: 0.9,
         ease: "power2.out",
-        scrollTrigger: { trigger: ref.current, start: "top 75%" },
+        scrollTrigger: { trigger: ref.current, start: "top 90%", once: true },
       });
     }, ref);
     return () => ctx.revert();
