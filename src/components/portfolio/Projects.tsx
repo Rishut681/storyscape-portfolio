@@ -155,12 +155,12 @@ export function Projects() {
                   {featured.name.toLowerCase().replace(/[^a-z0-9]/g, "")}.app
                 </span>
               </div>
-              <div className="aspect-[16/10] w-full overflow-hidden bg-paper">
+              <div className="flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-paper p-2">
                 <img
                   src={featured.image}
                   alt={`${featured.name} — ${featured.tag}`}
                   loading="lazy"
-                  className="h-full w-full object-cover object-top"
+                  className="h-full w-full object-contain"
                 />
               </div>
             </div>
@@ -236,12 +236,12 @@ export function Projects() {
                       <span className="h-2 w-2 rounded-full bg-ink/25" />
                       <span className="h-2 w-2 rounded-full bg-ink/25" />
                     </div>
-                    <div className="aspect-[16/10] w-full overflow-hidden bg-paper-2">
+                    <div className="flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-paper p-1.5">
                       <img
                         src={p.image}
                         alt={`${p.name} — ${p.tag}`}
                         loading="lazy"
-                        className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                        className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]"
                       />
                     </div>
                   </div>
