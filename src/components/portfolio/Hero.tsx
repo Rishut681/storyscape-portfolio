@@ -1,4 +1,5 @@
 import { INTRO_KEY } from "@/hooks/use-portfolio-motion";
+import { pad2 } from "@/content/portfolio";
 
 // Elements the motion hook drives: intro leader, film grain, cursor dot, progress bar.
 export function Overlays() {
@@ -153,37 +154,102 @@ export function Hero() {
   );
 }
 
+const lenses = [
+  {
+    kicker: "The analyst asks",
+    title: "Analyst’s head.",
+    titleCls: "font-semibold tracking-[-0.03em] text-ink",
+    items: [
+      "Who uses it, and how often?",
+      "What does it cost you today?",
+      "What does “done” look like?",
+    ],
+  },
+  {
+    kicker: "The developer builds",
+    title: "Developer’s hands.",
+    titleCls: "serif-i text-accent",
+    items: ["Websites & SaaS", "AI chatbots on WhatsApp", "n8n automations & dashboards"],
+  },
+];
+
 export function About() {
   const words =
     "I work as an analyst and a developer. I find what's slowing a business down, then build the thing that".split(
       " ",
     );
+  // data-arv blocks fade in (driven by the motion hook) once the sentence has lit up.
+  const hidden = { opacity: 0, transform: "translateY(24px)" };
   return (
     <section data-manifesto aria-labelledby="about-label" className="relative h-[200vh]">
-      <div className="sticky top-0 box-border flex h-screen flex-col justify-center px-gutter">
-        <h2
-          id="about-label"
-          className="mb-8 font-mono text-[12px] font-normal tracking-[.12em] text-muted-2 uppercase"
-        >
-          (01) — About
-        </h2>
-        <p className="m-0 flex max-w-[21ch] flex-wrap gap-x-[.24em] text-[clamp(36px,10vw,48px)] wide:text-[clamp(34px,5.2vw,92px)] leading-[1.02] font-semibold tracking-[-0.03em]">
-          {words.map((w, i) => (
-            <span key={i} data-w style={{ opacity: 0.14 }}>
-              {w}
-            </span>
-          ))}
-          {["fixes", "it."].map((w) => (
-            <span
-              key={w}
-              data-w
-              className="font-serif font-normal text-accent italic"
-              style={{ opacity: 0.14 }}
-            >
-              {w}
-            </span>
-          ))}
-        </p>
+      <div className="sticky top-0 box-border grid h-screen content-center gap-x-[6vw] gap-y-[clamp(24px,5vh,56px)] px-gutter pt-20 pb-[4vh] [align-content:safe_center] wide:grid-cols-[minmax(0,1.4fr)_minmax(300px,1fr)] wide:items-end">
+        <div>
+          <h2
+            id="about-label"
+            className="mb-[clamp(16px,4vh,32px)] font-mono text-[12px] font-normal tracking-[.12em] text-muted-2 uppercase"
+          >
+            (01) — About
+          </h2>
+          <p className="m-0 flex max-w-[21ch] flex-wrap gap-x-[.24em] text-[clamp(32px,9vw,48px)] leading-[1.02] font-semibold tracking-[-0.03em] wide:text-[clamp(34px,min(5.2vw,9vh),92px)]">
+            {words.map((w, i) => (
+              <span key={i} data-w style={{ opacity: 0.14 }}>
+                {w}
+              </span>
+            ))}
+            {["fixes", "it."].map((w) => (
+              <span
+                key={w}
+                data-w
+                className="font-serif font-normal text-accent italic"
+                style={{ opacity: 0.14 }}
+              >
+                {w}
+              </span>
+            ))}
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-[clamp(16px,3vh,28px)]">
+          <div className="grid grid-cols-2">
+            {lenses.map((l, i) => (
+              <div
+                key={l.kicker}
+                data-arv
+                style={hidden}
+                className={`flex flex-col gap-3 border-t border-line pt-[clamp(14px,2.4vh,22px)] ${i ? "border-l border-line pl-[clamp(14px,2vw,28px)]" : "pr-[clamp(14px,2vw,28px)]"}`}
+              >
+                <span className="font-mono text-[11px] tracking-[.12em] text-muted-2 uppercase">
+                  {l.kicker}
+                </span>
+                <h3 className={`m-0 text-[clamp(20px,2vw,30px)] leading-[1.05] ${l.titleCls}`}>
+                  {l.title}
+                </h3>
+                <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[clamp(14px,1.15vw,16px)] leading-[1.35] text-ink-2">
+                  {l.items.map((t, j) => (
+                    <li key={t} className="flex gap-2.5">
+                      <span className="pt-[3px] font-mono text-[10px] text-accent">
+                        {pad2(j + 1)}
+                      </span>
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <p
+            data-arv
+            style={hidden}
+            className="m-0 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line pt-[clamp(12px,2vh,18px)] font-mono text-[11px] tracking-[.1em] text-muted uppercase"
+          >
+            <span className="text-muted-2">Credits</span>
+            <span>Tripzygo</span>
+            <span aria-hidden="true">·</span>
+            <span>RankMonk</span>
+            <span aria-hidden="true">·</span>
+            <span>Independent clients</span>
+          </p>
+        </div>
       </div>
     </section>
   );

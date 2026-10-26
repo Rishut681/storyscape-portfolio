@@ -150,8 +150,14 @@ export function usePortfolioMotion(rootRef: RefObject<HTMLElement | null>) {
         const p = reduced ? 1 : prog(man, y, vh),
           ws = qa("[data-w]"),
           n = ws.length;
+        // Sentence lights up over the first ~60% of the runway, then the panel rises in.
         ws.forEach((w, i) => {
-          w.style.opacity = String(0.14 + 0.86 * cl(p * 1.25 * n - i));
+          w.style.opacity = String(0.14 + 0.86 * cl(p * 1.6 * n - i));
+        });
+        qa("[data-arv]", man).forEach((el, i) => {
+          const r = out(cl((p - 0.5 - i * 0.08) / 0.25));
+          el.style.opacity = String(r);
+          el.style.transform = "translateY(" + (1 - r) * 24 + "px)";
         });
       }
 

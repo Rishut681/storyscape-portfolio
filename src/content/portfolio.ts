@@ -1,9 +1,7 @@
 // Single source of truth for portfolio copy. Lifted verbatim from
 // design_handoff_portfolio/reference/Portfolio.dc.html → renderVals().
 
-export const SITE_URL = (
-  import.meta.env.VITE_SITE_URL || "https://itsrishu.me"
-).replace(/\/$/, "");
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://itsrishu.me").replace(/\/$/, "");
 export const EMAIL = "rishu07.dev@gmail.com";
 export const GITHUB = "https://github.com/Rishut681";
 export const NAME = "Rishu Raj";
