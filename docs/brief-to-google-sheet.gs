@@ -77,8 +77,7 @@ function sendNotification(d, ss) {
       d.msg || "",
       "",
       ss.getUrl(),
-    ].join("
-"),
+    ].join("\n"),
   });
 }
 
