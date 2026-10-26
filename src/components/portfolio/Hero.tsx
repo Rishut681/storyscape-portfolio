@@ -1,125 +1,193 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import heroCollage from "@/assets/hero-collage.jpg";
+import { INTRO_KEY } from "@/hooks/use-portfolio-motion";
+
+// Elements the motion hook drives: intro leader, film grain, cursor dot, progress bar.
+export function Overlays() {
+  return (
+    <>
+      <script
+        // Skip the intro on repeat visits before first paint (no flash).
+        dangerouslySetInnerHTML={{
+          __html: `try{if(sessionStorage.getItem("${INTRO_KEY}"))document.documentElement.setAttribute("data-nointro","")}catch(e){}`,
+        }}
+      />
+      <div
+        data-intro
+        aria-hidden="true"
+        className="fixed inset-0 z-[200] flex items-center justify-center bg-bg transition-opacity duration-[600ms] ease-[ease]"
+      >
+        <div className="relative flex aspect-square w-[min(56vw,420px)] items-center justify-center">
+          <div data-sweep className="absolute inset-0 rounded-full" />
+          <div className="absolute inset-0 rounded-full border border-[rgba(238,233,224,0.35)]" />
+          <div className="absolute inset-[12%] rounded-full border border-[rgba(238,233,224,0.2)]" />
+          <div className="absolute inset-x-0 top-1/2 h-px bg-[rgba(238,233,224,0.25)]" />
+          <div className="absolute inset-y-0 left-1/2 w-px bg-[rgba(238,233,224,0.25)]" />
+          <div
+            data-intro-n
+            className="relative text-[min(30vw,220px)] leading-none font-extrabold text-ink"
+          >
+            3
+          </div>
+        </div>
+        <div className="absolute inset-x-0 bottom-8 text-center font-mono text-[12px] tracking-[.2em] text-muted-2">
+          RISHU RAJ — PORTFOLIO, 2026
+        </div>
+      </div>
+      <div data-grain className="grain" aria-hidden="true" />
+      <div
+        data-cursor-dot
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 z-[180] -mt-[5px] -ml-[5px] hidden size-2.5 items-center justify-center rounded-full bg-accent font-mono text-[11px] tracking-[.08em] text-bg uppercase transition-[width,height,margin] duration-[250ms] ease-[ease]"
+      >
+        <span data-cursor-label />
+      </div>
+      <div
+        data-progress
+        aria-hidden="true"
+        className="fixed bottom-0 left-0 z-[120] h-0.5 w-full origin-left bg-accent"
+        style={{ transform: "scaleX(0)" }}
+      />
+    </>
+  );
+}
+
+const N = "font-display font-semibold text-ink tracking-[-0.04em]";
+const I = "font-serif italic font-normal text-accent tracking-[-0.02em]";
+const headWords: [string, string][] = [
+  ["Analyst’s", N],
+  ["head.", N],
+  ["Developer’s", I],
+  ["hands.", I],
+];
 
 export function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!ref.current) return;
-    const ctx = gsap.context(() => {
-      gsap.from("[data-hero-anim]", {
-        y: 30,
-        opacity: 0,
-        duration: 1.1,
-        ease: "power3.out",
-        stagger: 0.1,
-        delay: 0.15,
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section id="home" ref={ref} className="relative overflow-hidden wash-ochre">
-      <div className="pointer-events-none absolute inset-0 wash-ink" aria-hidden />
-      <div className="relative mx-auto max-w-[1400px] px-6 pb-16 pt-10 md:pb-24 md:pt-16">
-        {/* Above-fold masthead line */}
-        <div className="rule-b mb-8 flex flex-wrap items-baseline justify-between gap-3 pb-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-          <span data-hero-anim>Feature · The Practice</span>
-          <span data-hero-anim>By Rishu Raj · Freelance</span>
-          <span data-hero-anim>Est. read · 4 min</span>
+    <section id="top" data-hero aria-label="Intro" className="relative h-[320vh]">
+      <div className="sticky top-0 h-screen overflow-hidden">
+        <div data-reelwrap aria-hidden="true" className="absolute inset-0 will-change-transform">
+          <canvas data-reel className="absolute inset-0 block size-full" />
+          <video
+            data-video
+            muted
+            loop
+            playsInline
+            autoPlay
+            preload="metadata"
+            poster="/video/hero-poster.jpg"
+            tabIndex={-1}
+            className="absolute inset-0 size-full object-cover [filter:saturate(0.7)_contrast(1.08)_brightness(0.9)]"
+          >
+            <source src="/video/hero.webm" type="video/webm" />
+            <source src="/video/hero.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,11,10,0.05),rgba(12,11,10,0.3))]" />
         </div>
 
-        {/* Editorial hero: 12-col magazine grid */}
-        <div className="grid grid-cols-12 gap-x-6 gap-y-10">
-          <div className="relative col-span-12 md:col-span-8">
-            <p data-hero-anim className="mb-6 text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
-              № 001 — Practice Notes
-            </p>
-            <h1
-              data-hero-anim
-              className="font-serif text-[15vw] font-normal leading-[0.92] tracking-tight text-ink-deep md:text-[9.5vw] lg:text-[8.5rem]"
-            >
-              Cinematic
-              <br />
-              <em className="italic" style={{ color: "var(--ochre)" }}>interfaces,</em>
-              <br />
-              built by hand.
-            </h1>
-            <span
-              data-hero-anim
-              className="stamp absolute -top-2 right-2 hidden rounded-full px-3 py-1 font-serif text-[10px] uppercase tracking-[0.25em] md:inline-block"
-            >
-              Issue 06 · 2026
-            </span>
-          </div>
+        <canvas data-maskc aria-hidden="true" className="absolute inset-0 block size-full bg-bg" />
 
-          <aside data-hero-anim className="col-span-12 flex flex-col justify-end gap-6 md:col-span-4">
-            <div className="relative overflow-hidden border border-ink/10 bg-paper-2">
-              <img
-                src={heroCollage}
-                alt="Editorial collage — ink and ochre"
-                width={1024}
-                height={1280}
-                className="h-56 w-full object-cover md:h-72"
-              />
-              <span className="absolute bottom-2 right-3 font-serif text-[10px] uppercase tracking-[0.25em] text-paper mix-blend-difference">
-                Plate I
+        <div data-herometa className="pointer-events-none absolute inset-0">
+          <div className="label absolute inset-x-[4vw] top-[16vh] flex justify-between gap-6 text-muted">
+            <span>Full-stack developer × Business analyst</span>
+            <span>Based in India · Working worldwide</span>
+          </div>
+          <div className="label absolute inset-x-[4vw] bottom-[5vh] flex items-end justify-between gap-6">
+            <span className="flex items-center gap-2.5">
+              <span className="size-2 rounded-full bg-live" />
+              Taking projects for Nov 2026
+            </span>
+            <span className="text-muted">Scroll ↓</span>
+          </div>
+        </div>
+        <div
+          data-scrim
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(12,11,10,0.92)_0%,rgba(12,11,10,0.55)_45%,rgba(12,11,10,0.1)_100%)]"
+          style={{ opacity: 0 }}
+        />
+        <div
+          data-cap
+          className="pointer-events-none absolute inset-x-[4vw] bottom-[8vh] flex flex-col gap-7"
+        >
+          <span
+            data-capk
+            className="flex items-center gap-3 font-mono text-[12px] tracking-[.12em] text-ink-2 uppercase"
+            style={{ opacity: 0 }}
+          >
+            <span className="h-px w-7 bg-accent" />
+            Rishu Raj — developer &amp; business analyst
+          </span>
+          <h1 className="m-0 flex max-w-[13ch] flex-wrap gap-x-[.22em] text-[clamp(48px,min(8.4vw,15vh),156px)] leading-[.92] font-semibold tracking-[-0.04em]">
+            {headWords.map(([t, cls]) => (
+              <span key={t} className="-mb-[.12em] inline-block overflow-hidden pb-[.12em]">
+                <span
+                  data-hw
+                  className={`inline-block ${cls}`}
+                  style={{ transform: "translateY(110%)" }}
+                >
+                  {t}
+                </span>
               </span>
-            </div>
-            <div className="rule-t rule-b py-5">
-              <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                A note from the studio
-              </p>
-              <p className="mt-3 font-serif text-xl leading-snug italic text-ink-deep">
-                "I don't ship templates. I ship products that feel like they belong to someone."
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
+            ))}
+          </h1>
+          <div
+            data-capb
+            className="flex flex-wrap items-end justify-between gap-6"
+            style={{ opacity: 0, visibility: "hidden" }}
+          >
+            <p className="m-0 max-w-[44ch] text-[clamp(16px,2.2vh,20px)] leading-[1.45] text-pretty text-ink-2">
+              Websites, SaaS and n8n automations for businesses. I work out what will actually help,
+              then build it.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#work"
+                className="rounded-full border border-[rgba(238,233,224,0.45)] px-6 py-4 font-mono text-[12px] tracking-[.08em] uppercase transition-colors hover:bg-ink hover:text-bg"
+              >
+                See the work
+              </a>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 border border-ink-deep bg-ink-deep px-4 py-2.5 text-xs uppercase tracking-[0.18em] text-paper transition-colors hover:bg-transparent hover:text-ink-deep"
+                className="rounded-full bg-accent px-6 py-4 font-mono text-[12px] tracking-[.08em] text-bg uppercase transition-colors hover:bg-ink"
               >
-                Start a project
-              </a>
-              <a
-                href="#projects"
-                className="ink-underline ink-underline-hover pb-0.5 text-xs uppercase tracking-[0.18em] text-ink-deep"
-              >
-                Browse the case files ↗
+                Start a project →
               </a>
             </div>
-          </aside>
-        </div>
-
-        {/* Deck / standfirst */}
-        <div className="mt-14 grid grid-cols-12 gap-x-6 gap-y-6">
-          <div className="col-span-12 md:col-span-4">
-            <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">The Deck</p>
           </div>
-          <p className="col-span-12 font-serif text-2xl leading-snug text-ink-deep md:col-span-8 md:text-3xl">
-            Rishu Raj is a product engineer working at the seam of design and
-            code — building <em>quiet, exacting</em> web products for founders who
-            care how a thing feels, and refuse to look like everyone else.
-          </p>
         </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* Marks / footprint strip */}
-        <div className="mt-16 grid grid-cols-2 gap-6 rule-t pt-6 md:grid-cols-4">
-          {[
-            { k: "Full-stack", v: "React · Node · Postgres" },
-            { k: "Gurgaon", v: "IN · UTC +5:30" },
-            { k: "Open", v: "for new commissions" },
-            { k: "Async", v: "clear, written, on time" },
-          ].map((s) => (
-            <div key={s.v}>
-              <p className="font-serif text-3xl leading-none text-ink-deep md:text-4xl">{s.k}</p>
-              <p className="mt-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                {s.v}
-              </p>
-            </div>
+export function About() {
+  const words =
+    "I work as an analyst and a developer. I find what's slowing a business down, then build the thing that".split(
+      " ",
+    );
+  return (
+    <section data-manifesto aria-labelledby="about-label" className="relative h-[200vh]">
+      <div className="sticky top-0 box-border flex h-screen flex-col justify-center px-gutter">
+        <h2
+          id="about-label"
+          className="mb-8 font-mono text-[12px] font-normal tracking-[.12em] text-muted-2 uppercase"
+        >
+          (01) — About
+        </h2>
+        <p className="m-0 flex max-w-[21ch] flex-wrap gap-x-[.24em] text-[clamp(34px,5.2vw,92px)] leading-[1.02] font-semibold tracking-[-0.03em]">
+          {words.map((w, i) => (
+            <span key={i} data-w style={{ opacity: 0.14 }}>
+              {w}
+            </span>
           ))}
-        </div>
+          {["fixes", "it."].map((w) => (
+            <span
+              key={w}
+              data-w
+              className="font-serif font-normal text-accent italic"
+              style={{ opacity: 0.14 }}
+            >
+              {w}
+            </span>
+          ))}
+        </p>
       </div>
     </section>
   );
