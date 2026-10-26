@@ -167,7 +167,7 @@ export function About() {
         >
           (01) — About
         </h2>
-        <p className="m-0 flex max-w-[21ch] flex-wrap gap-x-[.24em] text-[clamp(34px,5.2vw,92px)] leading-[1.02] font-semibold tracking-[-0.03em]">
+        <p className="m-0 flex max-w-[21ch] flex-wrap gap-x-[.24em] text-[clamp(36px,10vw,48px)] wide:text-[clamp(34px,5.2vw,92px)] leading-[1.02] font-semibold tracking-[-0.03em]">
           {words.map((w, i) => (
             <span key={i} data-w style={{ opacity: 0.14 }}>
               {w}

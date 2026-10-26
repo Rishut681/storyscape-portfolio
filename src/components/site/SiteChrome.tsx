@@ -48,6 +48,20 @@ export function SiteHeader() {
                 </SheetClose>
               ))}
             </div>
+            <SheetClose asChild>
+              <a
+                href="/#contact"
+                className="mt-10 flex min-h-12 items-center justify-between rounded-full bg-accent px-6 font-mono text-[12px] tracking-[.08em] text-bg uppercase"
+              >
+                Start a project <span aria-hidden="true">→</span>
+              </a>
+            </SheetClose>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="link mt-6 block text-center text-[14px] text-muted"
+            >
+              {EMAIL}
+            </a>
           </SheetContent>
         </Sheet>
         <a
