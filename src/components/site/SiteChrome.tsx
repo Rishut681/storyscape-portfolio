@@ -83,7 +83,7 @@ export function SiteFooter() {
       </div>
       <div
         aria-hidden="true"
-        className="text-[23vw] leading-[.75] font-extrabold tracking-[-0.06em] whitespace-nowrap"
+        className="pointer-events-none text-[23vw] leading-[.75] font-extrabold tracking-[-0.06em] whitespace-nowrap"
       >
         RISHU<span className="text-accent">.</span>
       </div>
