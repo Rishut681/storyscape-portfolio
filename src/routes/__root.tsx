@@ -87,35 +87,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       {
         rel: "alternate",
         type: "application/rss+xml",
         title: "Rishu Raj — Notes",
         href: "/rss.xml",
       },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "preload",
         as: "font",
         type: "font/woff2",
         crossOrigin: "anonymous",
-        // Bricolage Grotesque (variable, latin) — the 800 weight draws the hero mask.
-        href: "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y9K6as8bTXq_nANBjzKo3IeZx8z6up5BeSl9D4dj_x9PpZBMlGIInE.woff2",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap",
+        // Bricolage Grotesque (variable) — the 800 weight draws the hero mask.
+        href: "/fonts/bricolagegrotesque-normal.woff2",
       },
     ],
     scripts: [
       {
-        src: "https://www.googletagmanager.com/gtag/js?id=G-S2R5GZ3FRV",
-        async: true,
-      },
-      {
-        children: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-S2R5GZ3FRV');`,
+        // GA4, loaded once the page is idle so it never competes with first render.
+        children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-S2R5GZ3FRV');addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-S2R5GZ3FRV';document.head.appendChild(s)},2500)});`,
       },
     ],
   }),

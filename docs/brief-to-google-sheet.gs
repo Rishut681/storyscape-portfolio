@@ -5,9 +5,10 @@
  *  1. Create a Google Sheet (e.g. "Portfolio briefs"). Extensions → Apps Script. Paste this file.
  *  2. Project Settings → Script properties → add SECRET = <any long random string>.
  *  3. Deploy → New deployment → type "Web app". Execute as: Me. Who has access: Anyone. Deploy, authorise.
- *  4. Copy the Web app URL (ends in /exec). In Lovable/Cloudflare set the server env vars:
+ *  4. Copy the Web app URL (ends in /exec). In Netlify → Site configuration → Environment variables, add:
  *       BRIEF_WEBHOOK_URL    = that URL
  *       BRIEF_WEBHOOK_SECRET = the same SECRET as step 2
+ *     Then trigger a redeploy so the new variables are picked up.
  *  5. Submit a test brief on the site — a row appears in the "Briefs" tab and you get an email.
  *  After editing this script, Deploy → Manage deployments → edit → New version (the URL stays the same).
  */

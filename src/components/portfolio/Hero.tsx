@@ -21,12 +21,8 @@ export function Overlays() {
           <div className="absolute inset-[12%] rounded-full border border-[rgba(238,233,224,0.2)]" />
           <div className="absolute inset-x-0 top-1/2 h-px bg-[rgba(238,233,224,0.25)]" />
           <div className="absolute inset-y-0 left-1/2 w-px bg-[rgba(238,233,224,0.25)]" />
-          <div
-            data-intro-n
-            className="relative text-[min(30vw,220px)] leading-none font-extrabold text-ink"
-          >
-            3
-          </div>
+          {/* Canvas, not text: a countdown digit would otherwise be (re)reported as the LCP element. */}
+          <canvas data-intro-n className="absolute inset-0 size-full" />
         </div>
         <div className="absolute inset-x-0 bottom-8 text-center font-mono text-[12px] tracking-[.2em] text-muted-2">
           RISHU RAJ — PORTFOLIO, 2026
@@ -70,8 +66,7 @@ export function Hero() {
             muted
             loop
             playsInline
-            autoPlay
-            preload="metadata"
+            preload="none"
             poster="/video/hero-poster.jpg"
             tabIndex={-1}
             className="absolute inset-0 size-full object-cover [filter:saturate(0.7)_contrast(1.08)_brightness(0.9)]"
@@ -105,6 +100,7 @@ export function Hero() {
         <div
           data-cap
           className="pointer-events-none absolute inset-x-[4vw] bottom-[8vh] flex flex-col gap-7"
+          style={{ visibility: "hidden" }}
         >
           <span
             data-capk

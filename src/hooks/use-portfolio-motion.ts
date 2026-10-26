@@ -39,6 +39,7 @@ export function usePortfolioMotion(rootRef: RefObject<HTMLElement | null>) {
     let maskScale: number | null = null;
     let heroVisible: boolean | null = null;
     let videoFailed = false;
+    let videoArmed = false; // set on window load so the video never competes with first render
     let cursorStep: (() => void) | null = null;
     const cleanups: (() => void)[] = [];
 
@@ -137,7 +138,7 @@ export function usePortfolioMotion(rootRef: RefObject<HTMLElement | null>) {
         const vis = y < (l?.top || 0) + (l?.h || vh);
         if (vis !== heroVisible) {
           heroVisible = vis;
-          if (video && !reduced && !videoFailed) {
+          if (video && videoArmed && !videoFailed) {
             if (vis) video.play().catch(() => {});
             else video.pause();
           }
@@ -240,10 +241,16 @@ export function usePortfolioMotion(rootRef: RefObject<HTMLElement | null>) {
     cleanups.push(() => ro.disconnect());
     measure();
     document.fonts?.load('800 100px "Bricolage Grotesque"').catch(() => {});
-    document.fonts?.ready.then(() => {
+    // The caption is bottom-anchored and still hidden at load; keep it out of layout
+    // (and CLS) until the web fonts have settled its height.
+    const cap = q("[data-cap]");
+    const fontsSettled = () => {
+      if (cap) cap.style.visibility = "";
       measure();
       dirty = true;
-    });
+    };
+    if (document.fonts) document.fonts.ready.then(fontsSettled);
+    else fontsSettled();
 
     // --- main loop ---
     let last = performance.now();
@@ -327,8 +334,17 @@ export function usePortfolioMotion(rootRef: RefObject<HTMLElement | null>) {
       (lastSource || video).addEventListener("error", fail);
       if (video.error) fail();
       if (!reduced) {
-        video.muted = true;
-        video.play().catch(() => {});
+        const arm = () => {
+          videoArmed = true;
+          video.muted = true;
+          video.preload = "auto";
+          if (heroVisible !== false) video.play().catch(() => {});
+        };
+        if (document.readyState === "complete") arm();
+        else {
+          addEventListener("load", arm, { once: true });
+          cleanups.push(() => removeEventListener("load", arm));
+        }
       }
     }
 
@@ -403,8 +419,14 @@ export function usePortfolioMotion(rootRef: RefObject<HTMLElement | null>) {
     // --- intro (film leader 3-2-1) ---
     const ov = q("[data-intro]");
     if (ov && !reduced && !document.documentElement.hasAttribute("data-nointro")) {
-      const n = q("[data-intro-n]")!,
+      const n = q<HTMLCanvasElement>("[data-intro-n]")!,
         sw = q("[data-sweep]")!;
+      const d = Math.min(devicePixelRatio || 1, 2);
+      n.width = n.clientWidth * d;
+      n.height = n.clientHeight * d;
+      const nctx = n.getContext("2d")!;
+      const fs = Math.min(innerWidth * 0.3, 220) * d;
+      let shown = "";
       const start = performance.now(),
         dur = 1800;
       let introRaf = 0;
@@ -422,7 +444,16 @@ export function usePortfolioMotion(rootRef: RefObject<HTMLElement | null>) {
           }
           return;
         }
-        n.textContent = String(3 - Math.floor(t / 600));
+        const digit = String(3 - Math.floor(t / 600));
+        if (digit !== shown) {
+          shown = digit;
+          nctx.clearRect(0, 0, n.width, n.height);
+          nctx.font = "800 " + fs + 'px "Bricolage Grotesque", system-ui, sans-serif';
+          nctx.fillStyle = "#EEE9E0";
+          nctx.textAlign = "center";
+          nctx.textBaseline = "middle";
+          nctx.fillText(digit, n.width / 2, n.height / 2);
+        }
         sw.style.background =
           "conic-gradient(rgba(238,233,224,0.16) " +
           ((t % 600) / 600) * 360 +

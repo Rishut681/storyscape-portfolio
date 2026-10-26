@@ -37,7 +37,7 @@ function Chapter({ p, i }: { p: Project; i: number }) {
       style={{ background: p.tone }}
     >
       <div
-        className={`sticky top-0 box-border flex h-screen flex-wrap content-center items-center gap-[4vw] overflow-hidden px-gutter pt-20 pb-[4vh] wide:flex-nowrap ${i % 2 ? "flex-row-reverse" : "flex-row"}`}
+        className={`sticky top-0 box-border flex h-screen flex-wrap content-center items-center gap-[4vw] [align-content:safe_center] overflow-hidden px-gutter pt-20 pb-[4vh] wide:flex-nowrap ${i % 2 ? "flex-row-reverse" : "flex-row"}`}
       >
         <div
           data-bignum
@@ -126,7 +126,7 @@ function Chapter({ p, i }: { p: Project; i: number }) {
 
         <div
           data-stage
-          className="relative z-[1] h-[min(34vh,62vw)] min-h-[180px] flex-[1.3_1_340px] will-change-[transform,opacity] wide:h-[min(68vh,640px,58vw)]"
+          className="relative z-[1] h-[min(34vh,62vw,calc(100vh-460px))] min-h-[180px] flex-[1.3_1_340px] will-change-[transform,opacity] wide:h-[min(68vh,640px,58vw)]"
           style={{ opacity: 0 }}
         >
           <div className="absolute top-0 left-0 h-[88%] w-[88%] overflow-hidden rounded-xl border border-[rgba(238,233,224,0.14)] bg-frame shadow-[0_40px_120px_rgba(0,0,0,0.55)]">
