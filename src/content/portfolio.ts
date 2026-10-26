@@ -2,7 +2,7 @@
 // design_handoff_portfolio/reference/Portfolio.dc.html → renderVals().
 
 export const SITE_URL = (
-  import.meta.env.VITE_SITE_URL || "https://storyscape-portfolio.lovable.app"
+  import.meta.env.VITE_SITE_URL || "https://itsrishu.me"
 ).replace(/\/$/, "");
 export const EMAIL = "rishu07.dev@gmail.com";
 export const GITHUB = "https://github.com/Rishut681";
