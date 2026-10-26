@@ -9,7 +9,8 @@
  *       BRIEF_WEBHOOK_URL    = that URL
  *       BRIEF_WEBHOOK_SECRET = the same SECRET as step 2
  *     Then trigger a redeploy so the new variables are picked up.
- *  5. Submit a test brief on the site — a row appears in the "Briefs" tab and you get an email.
+ *  5. In the editor pick "testEmail" and click Run once (grants email permission, sends a test).
+ *  6. Submit a test brief on the site — a row appears in the "Briefs" tab and you get an email.
  *  After editing this script, Deploy → Manage deployments → edit → New version (the URL stays the same).
  */
 const SHEET = "Briefs";
@@ -47,25 +48,44 @@ function doPost(e) {
       "New",
     ]);
 
-    MailApp.sendEmail({
-      to: NOTIFY,
-      replyTo: d.email,
-      subject: "New brief — " + (d.type || "New project") + " — " + (d.company || d.name),
-      body: [
-        "Name: " + d.name,
-        "Company: " + (d.company || "-"),
-        "Email: " + d.email,
-        "Need: " + (d.type || "-"),
-        "Budget: " + (d.budget || "-"),
-        "Start: " + (d.timeline || "-"),
-        "",
-        d.msg || "",
-        "",
-        ss.getUrl(),
-      ].join("\n"),
-    });
+    // The brief is already saved; a mail problem (permissions, quota) must not fail the request.
+    // Check Apps Script → Executions for the logged error if notifications stop arriving.
+    try {
+      sendNotification(d, ss);
+    } catch (mailErr) {
+      console.error("Notification email failed: " + mailErr);
+    }
     return out({ ok: true });
   } catch (err) {
     return out({ ok: false, error: String(err) });
   }
+}
+
+function sendNotification(d, ss) {
+  MailApp.sendEmail({
+    to: NOTIFY,
+    replyTo: d.email,
+    subject: "New brief — " + (d.type || "New project") + " — " + (d.company || d.name),
+    body: [
+      "Name: " + d.name,
+      "Company: " + (d.company || "-"),
+      "Email: " + d.email,
+      "Need: " + (d.type || "-"),
+      "Budget: " + (d.budget || "-"),
+      "Start: " + (d.timeline || "-"),
+      "",
+      d.msg || "",
+      "",
+      ss.getUrl(),
+    ].join("
+"),
+  });
+}
+
+/** Run this once from the editor: grants the email permission and sends a test notification. */
+function testEmail() {
+  sendNotification(
+    { name: "Test", email: NOTIFY, type: "Test", msg: "If you can read this, brief emails work." },
+    SpreadsheetApp.getActiveSpreadsheet(),
+  );
 }
